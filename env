@@ -32,8 +32,8 @@
 
 # database.default.hostname = localhost
 # database.default.database = ci4
-# database.default.username = root
-# database.default.password = root
+# database.default.username = tester
+# database.default.password = 111111
 # database.default.DBDriver = MySQLi
 # database.default.DBPrefix =
 # database.default.port = 3306
