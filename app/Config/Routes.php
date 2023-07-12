@@ -29,7 +29,12 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
+// 'localhost:8080'로 넘어 왔을때
 $routes->get('/', 'Home::index');
+// 'localhost:8080/pages'로 넘어 왔을때
+$routes->get('pages', 'Pages::index'); 
+// 'localhost:8080/home or about'로 넘어 왔을때
+$routes->get('(:segment)', 'Pages::view/$1');
 
 /*
  * --------------------------------------------------------------------
