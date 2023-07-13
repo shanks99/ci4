@@ -48,4 +48,36 @@ class News extends BaseController
         . view('news/view')
         . view('templates/footer');
     }
+
+    /**
+     * 등록
+     */
+    public function create()
+    {
+        # model 선언
+        $model = model(NewsModel::class);
+
+        # 검증
+        if ($this->request->getMethod() === 'post' && $this->validate([
+            'title' => 'required|min_length[3]|max_length[255]',
+            'body'  => 'required',
+        ])) {
+            $model->save([
+                /**
+                 * - $this->request->getPost('필드명') : post 넘겨 받은 값
+                 * - url_title : 공백->대시('-') 변경. 모두 소문자로 변경. 
+                 */
+                'title' => $this->request->getPost('title'),
+                'slug'  => url_title($this->request->getPost('title'), '-', true),
+                'body'  => $this->request->getPost('body'),
+            ]);
+
+            return view('news/success');
+        }
+
+        # View
+        return view('templates/header', ['title' => 'Create a news item'])
+            . view('news/create')
+            . view('templates/footer');
+    }
 }

@@ -33,6 +33,9 @@ $routes->set404Override();
 $routes->get('/', 'Home::index');
 
 # News Section (아래 Pages 보다 위에 위치 해야 됨. 이유 모름)
+// create
+$routes->match(['get', 'post'], 'news/create', 'News::create');
+
 // 'localhost:8080/news/xxxxx'로 넘어 왔을때
 $routes->get('news/(:segment)', 'News::view/$1');
 // 'localhost:8080/news'로 넘어 왔을때
