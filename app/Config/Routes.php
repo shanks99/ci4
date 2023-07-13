@@ -31,6 +31,14 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 // 'localhost:8080'로 넘어 왔을때
 $routes->get('/', 'Home::index');
+
+# News Section (아래 Pages 보다 위에 위치 해야 됨. 이유 모름)
+// 'localhost:8080/news/xxxxx'로 넘어 왔을때
+$routes->get('news/(:segment)', 'News::view/$1');
+// 'localhost:8080/news'로 넘어 왔을때
+$routes->get('news', 'News::index');
+
+# Pages 
 // 'localhost:8080/pages'로 넘어 왔을때
 $routes->get('pages', 'Pages::index'); 
 // 'localhost:8080/home or about'로 넘어 왔을때
