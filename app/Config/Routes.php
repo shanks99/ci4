@@ -32,6 +32,9 @@ $routes->set404Override();
 // 'localhost:8080'로 넘어 왔을때
 $routes->get('/', 'Home::index');
 
+# User
+$routes->get('user', 'UserController::index'); $routes->post('user', 'UserController::create');
+
 # News Section (아래 Pages 보다 위에 위치 해야 됨. 이유 모름)
 // create
 $routes->match(['get', 'post'], 'news/create', 'News::create');
