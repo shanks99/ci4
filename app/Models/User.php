@@ -13,7 +13,7 @@ class User extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['name', 'email', 'password', 'phone', 'address'];
+    protected $allowedFields    = ['name', 'email', 'password', 'phone', 'address']; // Insert시 처리 되는 필드
 
     // Dates
     protected $useTimestamps = false;
@@ -30,7 +30,7 @@ class User extends Model
 
     // Callbacks
     protected $allowCallbacks = true;
-    protected $beforeInsert   = [];
+    protected $beforeInsert   = ["beforeInsert"];
     protected $afterInsert    = [];
     protected $beforeUpdate   = [];
     protected $afterUpdate    = [];
@@ -38,4 +38,22 @@ class User extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    # Insert 전 처리
+    protected function beforeInsert(array $data)
+	{
+        # Hash 암호화
+		$data = $this->passwordHash($data);
+		return $data;
+	}
+
+    # Hash 암호화 처리
+    protected function passwordHash(array $data)
+	{
+		if (isset($data['data']['password'])) {
+			$data['data']['password'] = password_hash($data['data']['password'], PASSWORD_DEFAULT);
+		}
+
+		return $data;
+	}
 }

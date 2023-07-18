@@ -33,7 +33,14 @@ $routes->set404Override();
 $routes->get('/', 'Home::index');
 
 # User
-$routes->get('user', 'UserController::index'); $routes->post('user', 'UserController::create');
+// 회원가입 (필터 - 로그인 여부 체크)
+$routes->match(['get', 'post'], 'register', 'UserController::register', ['filter' => 'noauth']);
+// 로그인 (필터 - 로그인 여부 체크)
+$routes->match(['get', 'post'], 'login', 'UserController::login', ['filter' => 'noauth']);
+// 로그아웃
+$routes->get('logout', 'UserController::logout');
+// 프로필 (필터 - 로그인 여부 체크)
+$routes->get('profile', 'UserController::profile', ['filter' => 'auth']);
 
 # News Section (아래 Pages 보다 위에 위치 해야 됨. 이유 모름)
 // create
