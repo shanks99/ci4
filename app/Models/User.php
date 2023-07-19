@@ -32,7 +32,7 @@ class User extends Model
     protected $allowCallbacks = true;
     protected $beforeInsert   = ["beforeInsert"];
     protected $afterInsert    = [];
-    protected $beforeUpdate   = [];
+    protected $beforeUpdate   = ["beforeUpdate"];
     protected $afterUpdate    = [];
     protected $beforeFind     = [];
     protected $afterFind      = [];
@@ -41,6 +41,14 @@ class User extends Model
 
     # Insert 전 처리
     protected function beforeInsert(array $data)
+	{
+        # Hash 암호화
+		$data = $this->passwordHash($data);
+		return $data;
+	}
+
+    # Update 전 처리
+    protected function beforeUpdate(array $data)
 	{
         # Hash 암호화
 		$data = $this->passwordHash($data);

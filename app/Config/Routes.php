@@ -41,6 +41,8 @@ $routes->match(['get', 'post'], 'login', 'UserController::login', ['filter' => '
 $routes->get('logout', 'UserController::logout');
 // 프로필 (필터 - 로그인 여부 체크)
 $routes->get('profile', 'UserController::profile', ['filter' => 'auth']);
+// 정보수정 (필터 - 로그인 여부 체크)
+$routes->match(['get', 'post'], 'user_update', 'UserController::user_update', ['filter' => 'auth']);
 
 # News Section (아래 Pages 보다 위에 위치 해야 됨. 이유 모름)
 // create

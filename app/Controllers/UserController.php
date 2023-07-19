@@ -30,20 +30,19 @@ class UserController extends BaseController
             $rules = [
                 'email' => [
                     'label' => '이메일',
-                    'rules' => 'required|valid_email|validateUser[email]',
+                    'rules' => 'required|valid_email',
                     'errors'=> [
                         'required'  => '이메일을 입력 해주세요',
                         'valid_email' => '정확한 이메일을 입력 해주세요',
-                        'validateUser'=> '입력하신 이메일을 확인 해주세요 (가입정보 없음)'
                     ]
                 ],
                 'password' => [
                     'label' => '비밀번호',
-                    'rules' => 'required|min_length[4]|validateUser[password]',
+                    'rules' => 'required|min_length[4]|validateUser[email, password]',
                     'errors'=> [
                         'required'  => '비밀번호를 입력 해주세요',
                         'min_length' => '4자 이상 입력 해주세요',
-                        'validateUser'=> '입력하신 비밀번호를 확인 해주세요'
+                        'validateUser'=> '일치하는 계정정보가 확인 되지 않아요'
                     ]
                 ],
             ];
@@ -226,6 +225,91 @@ class UserController extends BaseController
 
         # Result
         return redirect()->to(base_url('login'));
+    }
+
+   /**
+     * 정보수정
+     *
+     * @return void
+     */
+    public function user_update() {
+        # init
+        $data = [];
+
+         # Model 호출
+         $model = new User();
+
+         # 일치 Data 가져오기
+         $data['user'] = $model->where('id', session()->get('id'))->first();
+
+        if ($this->request->getMethod() == 'post') {
+            # Validation
+            if( $this->request->getVar('phone')!= $data['user']['phone'] ) {
+                $rules['phone'] = [
+                    'label' => '휴대폰',
+                    'rules' => 'required|numeric|regex_match[/^[0-9]{10,11}$/]|validateExist[phone]',
+                    'errors' => [
+                        'required' => '휴대폰을 입력 해주세요',
+                        'numeric' => '숫자만 입력 해주세요',
+                        'regex_match' => '정확한 휴대폰 번호를 입력 해주세요 (숫자 10~11 자리)',
+                        'validateExist' => '이미 등록된 휴대폰'
+                    ]
+                ];        
+            }
+
+            if( $this->request->getVar('password') || $this->request->getVar('confirm_password') ) {
+                $rules['password'] = [
+                    'label' => '비밀번호',
+                    'rules' => 'required|min_length[4]|alpha_numeric',
+                    'errors' => [
+                        'required' => '비밀번호를 입력 해주세요',
+                        'min_length' => '4자 이상 입력 해주세요',
+                        'alpha_numeric' => '알파벳, 숫자만 입력 해주세요'
+                    ]
+                ];
+                $rules['confirm_password'] = [
+                    'label' => '비밀번호 재확인',
+                    'rules' => 'required|matches[password]',
+                    'errors' => [
+                        'required' => '비밀번호 재확인을 입력 해주세요',
+                        'matches' => '비밀번호가 일치 하지 않아요'
+                    ],
+                ];
+            }
+
+            # validate 판별
+            if (isset($rules) && !$this->validate($rules)) { // 실패
+                // ... Result
+                // View에서 $validation->getError('필드명')으로 실패 사유 활용
+                return view('layout/header') 
+                    . view('users/user_update', $data, ["validation" => $this->validator,])
+                    . view('layout/footer');
+            } else { // 성공
+
+                // ... Data Update
+                $newData = [
+                    'phone' => $this->request->getVar('phone'),
+                    'address' => $this->request->getVar('address'),
+                ];
+                if( $this->request->getVar('password') ) {
+                    $newData['password'] = $this->request->getVar('password');    
+                }
+
+                $model->update(session()->get('id'), $newData);
+
+                // ... Etc
+                $session = session();
+                $session->setFlashdata('success', 'Successful Update');
+
+                // ... Result
+                return redirect()->to(base_url('profile'));
+            }
+        }
+
+        # Result
+        return view('layout/header')
+            . view('users/user_update', $data)
+            . view('layout/footer');
     }
 
     /**
