@@ -33,8 +33,8 @@ class Pages extends BaseController
         /**
          * Header + Body + Footer 보여주기
          */
-        return view('templates/header', $data)
+        return view('layout/header', $data)
             . view('pages/' . $page)
-            . view('templates/footer');
+            . view('layout/footer');
     }
 }

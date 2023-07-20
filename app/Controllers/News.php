@@ -21,9 +21,9 @@ class News extends BaseController
         ];
 
         # view
-        return view('templates/header', $data)
+        return view('layout/header', $data)
             . view('news/overview')
-            . view('templates/footer');
+            . view('layout/footer');
     }
 
     /**
@@ -44,9 +44,9 @@ class News extends BaseController
         $data['title'] = $data['news']['title'];
 
         # View
-        return view('templates/header', $data)
+        return view('layout/header', $data)
         . view('news/view')
-        . view('templates/footer');
+        . view('layout/footer');
     }
 
     /**
@@ -76,8 +76,8 @@ class News extends BaseController
         }
 
         # View
-        return view('templates/header', ['title' => 'Create a news item'])
+        return view('layout/header', ['title' => 'Create a news item'])
             . view('news/create')
-            . view('templates/footer');
+            . view('layout/footer');
     }
 }
