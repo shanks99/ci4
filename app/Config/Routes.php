@@ -32,6 +32,18 @@ $routes->set404Override();
 // 'localhost:8080'로 넘어 왔을때
 $routes->get('/', 'Home::index');
 
+# Blog
+// Create
+$routes->match(['get', 'post'], 'blog/create', 'BlogController::create', ['filter' => 'auth']);
+// Index
+$routes->get('blog', 'BlogController::index');
+// View
+$routes->get('blog/(:segment)', 'BlogController::view/$1');
+// Update
+$routes->match(['get', 'post'], 'blog/update/(:segment)', 'BlogController::update/$1', ['filter' => 'auth']);
+// Delete
+$routes->match(['get', 'post'], 'blog/delete/(:segment)', 'BlogController::delete/$1', ['filter' => 'auth']);
+
 # User
 // 회원가입 (필터 - 로그인 여부 체크)
 $routes->match(['get', 'post'], 'register', 'UserController::register', ['filter' => 'noauth']);
