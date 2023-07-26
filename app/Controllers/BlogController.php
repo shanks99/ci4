@@ -27,7 +27,10 @@ class BlogController extends BaseController
         $model = model(BlogModel::class);
 
         # Data 가져오기
-        $data['blog'] = $model->findAll();
+        $data = [
+            'blog'  => $model->paginate(10),
+            'pager' => $model->pager,
+        ];
 
         # Page Default View
         return view('layout/header')

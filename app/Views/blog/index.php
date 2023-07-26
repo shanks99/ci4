@@ -13,6 +13,7 @@
         </li>    
         <?php endforeach ?>
     </ul>    
+    <?= $pager->links() ?>
     <?php else: ?>
         <h3>No List</h3>
         <p>등록된 게시물이 없어요</p>
