@@ -170,6 +170,7 @@ class BlogController extends BaseController
         if (!empty($data['blog']['upfile'])) {
             $data['blog']['upfile_info'] = unserialize(base64_decode($data['blog']['upfile']));
         }
+
         print_r($data['blog']['upfile_info']);
         
         # Result
