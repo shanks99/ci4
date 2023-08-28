@@ -8,6 +8,10 @@
             <div class="card-body p-4">
                 <div class="form-group mb-3">
                     <p><?= esc($blog['content']) ?></p>
+                    <?php if($blog['upfile_info']['origin']) : ?>
+                    <img src="<?= base_url('/uploads/blog' . $blog['upfile_info']['save'])?>" alt="">    
+                    <?php endif; ?>    
+                    <p><?= esc($blog['upfile_info']['origin']) ?></p>
                     <hr>
                     <p>등록 : <?= $blog['created_at'] ?></p>
                     <p>수정 : <?= $blog['updated_at'] ?></p>

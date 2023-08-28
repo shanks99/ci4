@@ -2,7 +2,8 @@
     <?php $validation =  \Config\Services::validation(); ?>
 
     <div class="row">
-        <form class="" action="<?= base_url('blog/create') ?>" method="post">
+        <form class="" action="<?= base_url('blog/create') ?>" method="post" enctype="multipart/form-data" accept-charset="utf-8">
+        <!--<?= form_open_multipart('blog/create') ?> -->
             <?= csrf_field() ?>
                 
             <div class="card shadow">
@@ -27,6 +28,16 @@
                             <?php if ($validation->getError('content')): ?>
                             <div class="invalid-feedback">
                                 <?= $validation->getError('content') ?>
+                            </div>                                
+                        <?php endif; ?>
+                    </div>
+                
+                    <div class="form-group">
+                        <label class="form-label">첨부파일</label>
+                        <input type="file" class="form-control <?php if($validation->getError('upfile')): ?>is-invalid<?php endif ?>" name="upfile" placeholder="upfile" value="<?php echo set_value('upfile'); ?>"/>
+                            <?php if ($validation->getError('upfile')): ?>
+                            <div class="invalid-feedback">
+                                <?= $validation->getError('upfile') ?>
                             </div>                                
                         <?php endif; ?>
                     </div>

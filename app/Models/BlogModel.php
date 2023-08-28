@@ -13,7 +13,7 @@ class BlogModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['title','content','user_id','user_email'];
+    protected $allowedFields    = ['title','content','user_id','user_email','upfile'];
 
     // Dates
     protected $useTimestamps = false;

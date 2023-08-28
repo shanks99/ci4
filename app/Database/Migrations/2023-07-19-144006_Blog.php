@@ -29,6 +29,9 @@ class Blog extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => '50'
             ],
+            'upfile' => [
+                'type' => 'TEXT',
+            ],
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp'
         ]);
